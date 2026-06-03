@@ -1,76 +1,88 @@
 # Snakes and Ladders Android Game
 
-Accessible Snakes and Ladders game for Android built with **Jetpack Compose**. The project includes a visual board, turn-based gameplay, voice commands, text-to-speech feedback, and haptic feedback.
+A refactored GitHub-ready structure for an Android **Jetpack Compose** Snakes and Ladders game with accessibility-focused interaction. The latest source includes voice control, configurable commands, shake-to-roll, text-to-speech, haptic feedback, and multiple app screens.
 
-## Features
+## Current app features
 
-- Jetpack Compose UI with three screens: Home, Setup, and Game.
-- Turn-based Snakes and Ladders gameplay with animated token movement.
-- Voice control using Android `SpeechRecognizer`.
-- Spoken feedback using Android `TextToSpeech`.
-- Haptic feedback for dice rolls, movement, ladders, snakes, and win states.
-- Accessible interaction model with double-tap style button confirmation.
+- Home, setup, game, and command settings screens.
+- Voice control with customizable spoken commands.
+- Text-to-speech guidance and game status narration.
+- Shake gesture to roll the dice.
+- Haptic feedback for gameplay events.
+- Dynamic board rendering with token movement.
+- Accessibility-oriented button guide mode.
 
-## Project Structure
+## Why refactor it
+
+The latest version places app navigation, game rules, command matching, speech recognition, sensor handling, persistence, and all Compose screens inside a single file. That makes the app harder to maintain, test, and present cleanly in a public repository.
+
+## Recommended architecture
 
 ```text
 app/src/main/java/com/example/snakesandladders/
 ├── MainActivity.kt
 ├── game/
 │   ├── BoardConfig.kt
+│   ├── CommandModels.kt
 │   ├── GameModels.kt
 │   ├── GameState.kt
-│   └── GameViewModel.kt
+│   └── GameController.kt
 ├── ui/
 │   ├── AppRoot.kt
 │   ├── components/
 │   │   ├── AccessibleButton.kt
 │   │   ├── BoardView.kt
-│   │   ├── PlayerInfoCard.kt
+│   │   ├── ButtonGuideToggle.kt
+│   │   ├── CommandSettingRow.kt
+│   │   ├── PlayerInfo.kt
 │   │   ├── PlayerNameInput.kt
 │   │   ├── ScreenBackground.kt
 │   │   └── VoiceControlButton.kt
 │   └── screens/
+│       ├── CommandSettingsScreen.kt
 │       ├── GameScreen.kt
 │       ├── HomeScreen.kt
 │       └── SetupScreen.kt
 ├── voice/
-│   ├── SpeechRecognizerManager.kt
-│   └── TextSpeaker.kt
+│   ├── SpeechRecognition.kt
+│   ├── TextSpeaker.kt
+│   └── VoiceCommandStore.kt
 └── utils/
     ├── AppColors.kt
     ├── Constants.kt
+    ├── SensorUtils.kt
     └── VibrationUtils.kt
 ```
 
-## Why this refactor
+## Mapping from the current file
 
-The original version keeps UI, state, game logic, voice recognition, TTS, vibration, and board math in a single file. Splitting those responsibilities makes the codebase easier to read, test, maintain, and present as a professional GitHub repository.
+| Current responsibility | New file |
+|---|---|
+| `AppScreen`, `Player` | `game/GameModels.kt` |
+| `CommandConfig`, command list | `game/CommandModels.kt` |
+| `loadVoiceCommands`, `saveVoiceCommand` | `voice/VoiceCommandStore.kt` |
+| `normalizeCommand`, `similarity`, `levenshteinDistance`, `commandMatches` | `voice/SpeechRecognition.kt` |
+| `rememberTextSpeaker` | `voice/TextSpeaker.kt` |
+| `vibrateDevice` | `utils/VibrationUtils.kt` |
+| `ShakeRollDetector` | `utils/SensorUtils.kt` |
+| `BoardView`, `getCellOffset` | `ui/components/BoardView.kt` |
+| `AccessibleButton`, `VoiceControlButton`, `ButtonGuideToggle` | `ui/components/` |
+| `HomeScreen`, `SetupScreen`, `GameScreen`, `CommandSettingsScreen` | `ui/screens/` |
+| central state inside `SnakesAndLaddersApp()` | `game/GameState.kt` + `game/GameController.kt` |
 
-## Suggested next steps
-
-1. Move data classes and enums into `game/`.
-2. Extract board paths and game rules into `BoardConfig` and `GameViewModel`.
-3. Keep composables stateless where possible and pass state via parameters.
-4. Move TTS and speech recognition into dedicated helpers.
-5. Add screenshots and a short demo GIF to the repo.
-6. Add unit tests for board movement and voice command parsing.
-
-## GitHub checklist
+## GitHub polish checklist
 
 - Add screenshots in `docs/`.
-- Add a short demo video or GIF.
-- Add a license file.
-- Add issues labels and a simple project board.
-- Enable GitHub Actions for Android lint and build.
+- Add a short GIF of gameplay and command settings.
+- Add a section about accessibility and voice interaction.
+- Add unit tests for command matching and board movement.
+- Add instrumentation tests for navigation and screen actions.
+- Add a GitHub Actions workflow for build and lint.
 
-## Example commit history
+## Suggested repository name
 
-- `feat: add home, setup and game flow`
-- `feat: add speech recognition and spoken feedback`
-- `refactor: move game rules into GameViewModel`
-- `docs: add README architecture and screenshots`
+`snakes-and-ladders-accessible-android`
 
-## Topics for the GitHub repo
+## Suggested topics
 
-`android` `jetpack-compose` `kotlin` `accessibility` `speech-recognition` `text-to-speech` `board-game`
+`android` `kotlin` `jetpack-compose` `accessibility` `speech-recognition` `text-to-speech` `board-game` `mobile-game`
