@@ -28,21 +28,7 @@ app/src/main/java/com/example/snakesandladders/
 │   ├── GameState.kt
 │   └── GameController.kt
 ├── ui/
-│   ├── AppRoot.kt
-│   ├── components/
-│   │   ├── AccessibleButton.kt
-│   │   ├── BoardView.kt
-│   │   ├── ButtonGuideToggle.kt
-│   │   ├── CommandSettingRow.kt
-│   │   ├── PlayerInfo.kt
-│   │   ├── PlayerNameInput.kt
-│   │   ├── ScreenBackground.kt
-│   │   └── VoiceControlButton.kt
-│   └── screens/
-│       ├── CommandSettingsScreen.kt
-│       ├── GameScreen.kt
-│       ├── HomeScreen.kt
-│       └── SetupScreen.kt
+│   └── AppRoot.kt
 ├── voice/
 │   ├── SpeechRecognition.kt
 │   ├── TextSpeaker.kt
