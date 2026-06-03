@@ -1,0 +1,17 @@
+package com.example.snakesandladders.game
+
+import androidx.compose.ui.graphics.Color
+
+enum class AppScreen {
+    HOME,
+    SETUP,
+    GAME,
+    COMMAND_SETTINGS
+}
+
+data class Player(
+    val name: String,
+    val shortName: String,
+    val color: Color,
+    val position: Int = 0
+)
